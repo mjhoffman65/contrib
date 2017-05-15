@@ -175,18 +175,6 @@ func main() {
 	}
 
 	flagCheckUrlCmd()
-	links := []struct {
-		link, desc string
-	}{
-		{"/healthz", "healthz probe. Returns \"ok\" if the command given through -cmd exits with 0."},
-		{"/quit", "Cause this container to exit."},
-	}
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "<b> Kubernetes healthz sidecar container </b><br/><br/>")
-		for _, v := range links {
-			fmt.Fprintf(w, `<a href="%v">%v: %v</a><br/>`, v.link, v.link, v.desc)
-		}
-	})
 
 	http.HandleFunc("/quit", func(w http.ResponseWriter, r *http.Request) {
 		log.Printf("Shutdown requested via /quit by %v", r.RemoteAddr)
